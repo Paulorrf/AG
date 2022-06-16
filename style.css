@@ -3,9 +3,27 @@
 }
 
 #container {
-    display:flex;
+    
 }
 
-#novo {
- 
+#new {
+ width: 90vw;
+ display: grid;
+ grid-template-columns: 1fr 1fr 1fr 1fr;
+ justify-content: center;
+ align-items: center;
+ box-shadow: 0 0 10px black;
+ margin: 0 auto;
+}
+
+#new > * {
+    margin-left: 2rem;
+}
+
+.found {
+    color: green;
+}
+
+.geracao {
+    text-decoration: underline;
 }

@@ -17,7 +17,8 @@ function equacao(x, y) {
  * Transforma binarios que possuem somente um numero em 3
  * por exemplo 11 fica 011 e 1 fica 001
  *  */
-function converter3casas(valueString) {
+
+function convertTo3Numbers(valueString) {
   if (valueString.length === 1) {
     valueString = "00" + valueString;
   } else if (valueString.length === 2) {
@@ -109,19 +110,42 @@ function decodification(val) {
 }
 
 //mostra os valores na tela(index.html)
-function displayArray(arr, tagRef, id) {
-  let valor = arr.map((value) => {
+//finalArray, "p" or "h4", original or new, false or true
+function displayArray(arr, tagRef, id, found, count) {
+  let tag2 = document.createElement(tagRef);
+  let geracao = document.createElement("h4");
+  let foundValue = document.createTextNode("Achou f(x,y) = 2");
+
+  if (count.hasCount) {
+    //mostra cada uma das gerações
+    let counter = document.createTextNode(`Geração: ${count.counter}`);
+    geracao.appendChild(counter);
+    geracao.classList.add("geracao");
+  } else {
+    //mostra o primeiro valor antes de entrar no while
+    let original = document.createTextNode("Primeiro");
+    geracao.appendChild(original);
+    geracao.classList.add("geracao");
+  }
+
+  if (found) {
+    tag2.appendChild(foundValue);
+    tag2.classList.add("found");
+  }
+
+  let myDiv = document.createElement("div");
+  myDiv.appendChild(geracao);
+
+  let element = document.getElementById(id);
+  myDiv.appendChild(tag2);
+  element.appendChild(myDiv);
+
+  arr.map((value) => {
     let tag = document.createElement(tagRef);
     let text = document.createTextNode(value.join(" | "));
-    //return tag.appendChild(text);
     tag.appendChild(text);
-    let element = document.getElementById(id);
-    element.appendChild(tag);
+    myDiv.appendChild(tag);
   });
-
-  let tag = document.createElement("br");
-  let element = document.getElementById(id);
-  element.appendChild(tag);
 }
 
 //array
@@ -153,7 +177,7 @@ function createXYandCromo() {
     y = randomNumber(7);
 
     cromossomo =
-      converter3casas(x.toString(2)) + converter3casas(y.toString(2));
+      convertTo3Numbers(x.toString(2)) + convertTo3Numbers(y.toString(2));
 
     equacaoResult = equacao(x, y);
 
@@ -202,39 +226,39 @@ function decode(arr) {
 
 finalArray = decode(mutatedPopulation);
 
-displayArray(finalArray, "p", "original");
+displayArray(finalArray, "h4", "new", false, { hasCount: false });
 
 console.log("primeiro array");
 console.log(finalArray);
 
-let count = 0;
+let counter = 0;
 let newPopu = [];
 let arrDesc = [];
 let popuLength;
-let mutantedNewPopu;
+let mutatedNewPopu;
 let finalArray2 = [];
 
 //numero de epocas
-while (count < 5 && finalArray[0][3] !== 2) {
+while (counter < 20 && finalArray[0][3] !== 2) {
   newPopu = createNewPopulation(finalArray);
+  console.log(newPopu);
 
   popuLength = Math.round(newPopu.join("").length / 12);
 
-  mutantedNewPopu = mutation(newPopu, popuLength);
+  mutatedNewPopu = mutation(newPopu, popuLength);
 
-  finalArray = decode(mutantedNewPopu);
-
-  displayArray(finalArray, "h4", "new");
-
-  console.log("Novo array");
-  console.log(finalArray);
-  console.log(count);
+  finalArray = decode(mutatedNewPopu);
 
   if (finalArray[0][3] === 2) {
-    console.log("achou função = 2");
-    //console.log(finalArray);
+    displayArray(finalArray, "h4", "new", true, { hasCount: true, counter });
     break;
   }
 
-  count++;
+  displayArray(finalArray, "h4", "new", false, { hasCount: true, counter });
+
+  console.log("Novo array");
+  console.log(finalArray);
+  console.log(counter);
+
+  counter++;
 }
