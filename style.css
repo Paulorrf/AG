@@ -1,19 +1,27 @@
-.title {
-   
+#box {
+    text-align: center;
 }
 
-#container {
-    
+#box #info {
+    display: flex;
+    justify-content: center;
+    gap: 6rem;
+    margin-left: 4rem;
+}
+
+#box #info #cromo { 
+    font-weight: bold;
 }
 
 #new {
  width: 90vw;
  display: grid;
- grid-template-columns: 1fr 1fr 1fr 1fr;
+ grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
  justify-content: center;
  align-items: center;
  box-shadow: 0 0 10px black;
  margin: 0 auto;
+ text-align: center;
 }
 
 #new > * {
