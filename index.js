@@ -1,4 +1,8 @@
 /**
+ * Nomes: Luis Gustavo e Paulo Renato
+ */
+
+/**
  * Equação Utilizada:
  * f(x,y) = 2 - (x-2)^2 - (y-3)^2
  */
@@ -76,6 +80,8 @@ function mutation(population, leng) {
   let randomPopulation;
   let randomCromo;
 
+  //console.log(population);
+
   for (let i = 0; i < leng; i++) {
     //pega um dos valores do cromossomo de 0 a 5 para mudar
     randomCromo = randomNumber(5);
@@ -128,6 +134,7 @@ function displayArray(arr, tagRef, id, found, count) {
     geracao.classList.add("geracao");
   }
 
+  //caso ache o f(x,y) = 2 irá mostrar na tela com a cor verde
   if (found) {
     tag2.appendChild(foundValue);
     tag2.classList.add("found");
@@ -156,7 +163,7 @@ let newPopulation = [];
 let finalArray = [];
 
 //int
-let individuos = 10;
+let individuos = 10; //quantidade total de indivíduos por geração
 let newPopulationLength;
 
 /**
@@ -192,14 +199,7 @@ arrayNumbers = createXYandCromo();
 //passo5
 arrayNumbers = sortDesc(arrayNumbers);
 
-//passo 6
-// arrayNumbers = arrayNumbers.slice(0, 4);
-
-// arrayLast2Digits = arrayNumbers.map((arr) => {
-//   return arr[2].slice(4);
-// });
-
-//passo7, passo8
+//passo6, passo7, passo8
 newPopulation = createNewPopulation(arrayNumbers);
 
 //12 genes
@@ -226,39 +226,46 @@ function decode(arr) {
 
 finalArray = decode(mutatedPopulation);
 
-displayArray(finalArray, "h4", "new", false, { hasCount: false });
-
-console.log("primeiro array");
-console.log(finalArray);
+//passo 11
+if (finalArray[0][3] === 2) {
+  displayArray(finalArray, "h4", "new", true, { hasCount: false });
+} else {
+  displayArray(finalArray, "h4", "new", false, { hasCount: false });
+}
 
 let counter = 0;
 let newPopu = [];
-let arrDesc = [];
 let popuLength;
 let mutatedNewPopu;
-let finalArray2 = [];
+let redo = 100; //controla o número de gerações
 
-//numero de epocas
-while (counter < 20 && finalArray[0][3] !== 2) {
+while (counter < redo && finalArray[0][3] !== 2) {
+  //passo6, passo7, passo8
   newPopu = createNewPopulation(finalArray);
+
+  console.log(`antes da mutação. Geração: ${counter}`);
   console.log(newPopu);
 
   popuLength = Math.round(newPopu.join("").length / 12);
 
+  //passo9
   mutatedNewPopu = mutation(newPopu, popuLength);
 
+  console.log(`depois da mutação. Geração: ${counter}`);
+  console.log(mutatedNewPopu);
+  console.log();
+
+  //passo10
   finalArray = decode(mutatedNewPopu);
 
+  //passo 11
+  //finalArray[0][3] contem o resultado da f(x, y)
   if (finalArray[0][3] === 2) {
     displayArray(finalArray, "h4", "new", true, { hasCount: true, counter });
     break;
   }
 
   displayArray(finalArray, "h4", "new", false, { hasCount: true, counter });
-
-  console.log("Novo array");
-  console.log(finalArray);
-  console.log(counter);
 
   counter++;
 }
