@@ -1,8 +1,4 @@
 /**
- * Nomes: Luis Gustavo e Paulo Renato
- */
-
-/**
  * Equação Utilizada:
  * f(x,y) = 2 - (x-2)^2 - (y-3)^2
  */
